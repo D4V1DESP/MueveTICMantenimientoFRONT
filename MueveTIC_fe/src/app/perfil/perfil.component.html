@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <style>
+        body {
+            background-color: lightblue;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 10fr 1fr 6fr 1fr 10fr;
+        }
+        .bloque-interfaz {
+            grid-row: 2/9;
+            grid-column: 2/5;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+        .text {
+            display: flex;
+            align-self: end;
+            justify-content: start;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .invalid {
+            border-color: red;
+        }
+        .validation-msg {
+            color: red;
+        }
+        button {
+            width: 15vw; font-size: 2em; font-weight: bold; border-radius: 40px; background-color: darkblue; color: white;
+        }
+        label {
+            margin-top: 10px;
+        }
+        .blocked {
+            background-color: gainsboro;
+            color: darkgray;
+            cursor: not-allowed;
+        }
+        .blocked:hover {
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bloque-interfaz" style="width: 50vw; margin: 100px 0 100px 0;"></div>
+    <div class="item" style="grid-row: 3; grid-column: 3; font-size: 4em; font-weight: bold; padding: 100px 0 0 0;">
+        Perfil
+    </div>
+    <fieldset [disabled]="this.accountService.user.role=='MAINTENANCE'" *ngIf="accountService.auxUser != null" style="grid-row: 5; grid-column: 3; display: flex; flex-direction: column; align-items: stretch; border: none;">
+        <label for="name">Nombre de usuario:</label>
+        <input type="text" id="name" [(ngModel)]="accountService.auxUser.name" placeholder="Tu nombre">
+
+        <label for="surname">Apellidos:</label>
+        <input type="text" id="surname" [(ngModel)]="accountService.auxUser.surname" placeholder="Tus apellidos">
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" [(ngModel)]="accountService.auxUser.email" readonly style="background-color: gainsboro;">
+
+        <label for="role">Rol:</label>
+        <input type="text" id="role" [(ngModel)]="accountService.auxUser.role" readonly style="background-color: gainsboro;">
+
+        <label for="dni">Dni:</label>
+        <label *ngIf="!accountService.validateDni(accountService.auxUser.dni)" class="validation-msg" for="dni">El DNI debe no puede estar vacio y debe tener 8 digitos y 1 letra</label>
+        <input [ngClass]="{
+            'invalid': !accountService.auxUser.dni,
+            'valid': accountService.auxUser.dni
+          }" type="text" id="dni" [(ngModel)]="accountService.auxUser.dni" placeholder="Tu dni">
+
+        <div *ngIf="accountService.auxUser.role == 'MEMBER'" style="display: flex; flex-direction: column; align-items: stretch;">
+            <label for="telephone">Telefono:</label>
+            <label *ngIf="!accountService.validateTelephone(accountService.auxUser.telephone)" class="validation-msg" for="telephone">El número de telefono no puede estar vacio y debe tener 9 digitos</label>
+            <input [ngClass]="{
+                'invalid': !accountService.validateTelephone(accountService.auxUser.telephone),
+                'valid': accountService.validateTelephone(accountService.auxUser.telephone)
+              }" type="number" id="telephone" [(ngModel)]="accountService.auxUser.telephone" placeholder="Tu numero de Telefono">
+
+            <label for="birthdate">Fecha de cumpleaños:</label>
+            <input type="date" id="birthdate" [(ngModel)]="accountService.auxUser.birthdate" (ngModelChange)="accountService.newBirthdate=$event" max="{{this.date}}" style="background-color: white;">
+
+        </div>
+
+        <div *ngIf="accountService.auxUser.role == 'ADMIN' || accountService.auxUser.role == 'MAINTENANCE'" style="display: flex; flex-direction: column; align-items: stretch;">
+            <label for="city">Ciudad:</label>
+            <input type="text" id="city" [(ngModel)]="accountService.auxUser.city" placeholder="Tu ciudad">
+        </div>
+
+        <div *ngIf="accountService.auxUser.role == 'MAINTENANCE'" style="display: flex; flex-direction: column; align-items: stretch;">
+            <label for="experience">Experiencia:</label>
+            <input type="text" id="experience" [(ngModel)]="accountService.auxUser.experience" readonly style="background-color: gainsboro;">
+        </div>
+
+        <div *ngIf="accountService.auxUser.role == 'MAINTENANCE' || accountService.auxUser.role == 'MEMBER'" style="display: flex; flex-direction: column; align-items: stretch;">
+            <label for="carnet">Carnet de conducir:</label>
+            <input type="text" id="carnet" [(ngModel)]="accountService.auxUser.drivingLicense" placeholder="Tu carnet de conducir">
+        </div>
+    </fieldset>
+    <div *ngIf="!confirm" style="grid-row: 6; grid-column: 3; display: flex; align-items: center; flex-direction: column-reverse;">
+        <div *ngIf="this.accountService.user.role != 'MAINTENANCE'" style="width: 100%; display: flex; align-items: center; justify-content: space-around;">
+            <button [ngClass]="{
+                'blocked': !isValid()
+            }" (click)="doUpdateAccount()" [disabled]="!isValid()">
+                Guardar
+            </button>
+            <button (click)="showConfirmation()" style="background-color: red; color: white;">
+                Eliminar
+            </button>
+        </div>
+        <div (click)="doUpdatePassword()" style="color: darkblue; cursor: pointer; text-decoration: underline; margin: 10px; font-size: 1.25rem;">Ir a cambio de contraseña</div>
+    </div>
+    <div *ngIf="confirm" style="width: 100%; grid-row: 6; grid-column: 3; align-items: center; display: flex; flex-direction: column;">
+        <div style="margin: 10px; font-size: 1.25rem;">¿Estás seguro de que quieres eliminar tu cuenta?</div>
+        <div style="width: 100%; display: flex; align-items: center; justify-content: space-around;">
+            <button (click)="doDeleteAccount()" style="width: 10vw; background-color: red; color: white;">
+                Si
+            </button>
+            <button (click)="cancelDelete()" style="width: 10vw;">
+                No
+            </button>
+        </div>
+    </div>
+    <div class="item" style="grid-row: 8; grid-column: 3; display: flex; flex-direction: column-reverse; margin: 20px 0 120px;">
+        <button (click)="backToMainMenu()" class="btn">
+            Volver al menu
+        </button>
+        <div class="item" style="color: red; font-weight: bold;">
+            {{ msg }}
+        </div>
+    </div>
+    <div *ngIf="this.accountService.user.role=='MAINTENANCE'" style="grid-row: 7; grid-column: 3; text-align: center;">
+        <p>* Solo un administrador puede modificar tu perfil</p>
+    </div>
+</body>
+</html>

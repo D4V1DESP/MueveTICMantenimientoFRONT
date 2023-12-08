@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <style>
+        body {
+            background-color: lightblue;
+            margin: 0;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 8fr 1fr 1fr 1fr 1fr 6fr 1fr 1fr 2fr 6fr;
+        }
+        .bloque-interfaz {
+            grid-row: 2/9;
+            grid-column: 2/5;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+        .text {
+            display: flex;
+            align-self: end;
+            justify-content: start;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .grid {
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 8fr 1fr 1fr 1fr 1fr 10fr 1fr 1fr 2fr 6fr;
+            grid-template-columns: 10fr 1fr 40fr 1fr 10fr;
+        }
+        .home-btn {
+            font-size: 2em;
+            font-weight: bold;
+            border-radius: 50px;
+            background-color: darkblue;
+            color: white;
+            height: 50%;
+            width: 100%;
+        }
+        .menu-btn {
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" *ngIf="accountService.user.dni!=null">
+        <div class="bloque-interfaz"></div>
+        <div class="item" style="grid-row: 3; grid-column: 3; font-size: 4em; font-weight: bold; text-align: center;">
+            ¡Bienvenido {{ accountService.user.name }}!
+        </div>
+        <div class="item menu-btn" style="grid-row: 7; grid-column: 3; height: 50px; width: 100%;">
+            <button (click)="redirectToLogout()" class="home-btn" style="height: 100%; width: auto; background-color: blue;">
+                Cerrar Sesión
+            </button>
+        </div>
+        <div style="grid-row: 6; grid-column: 3; display: flex; justify-content: space-between;">
+            <div class="item menu-btn">
+                <button (click)="redirectToProfile()" class="home-btn">
+                    Perfil
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='MEMBER'" class="item menu-btn">
+                <button (click)="redirectToReservas()" class="home-btn">
+                    Reservas
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='MEMBER'" class="item menu-btn">
+                <button (click)="redirectToVehiculos()" class="home-btn">
+                    Consultas
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
+                <button (click)="redirectToUsuarios()" class="home-btn">
+                    Administrar Usuarios
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
+                <button (click)="redirectToVehiculos()" class="home-btn">
+                    Administrar Vehiculos
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
+                <button (click)="redirectToConfig()" class="home-btn">
+                    Configuración
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="grid" *ngIf="accountService.user.dni==null">
+        <div class="bloque-interfaz"></div>
+        <div class="item" style="grid-row: 3; grid-column: 3; font-size: 4em; font-weight: bold; text-align: center;">
+            ¡Bienvenido {{ accountService.user.name }}!
+        </div>
+        <div style="grid-row: 4; grid-column: 3; font-size: 2em;">
+            Pero aun nos falta un poco de información para poder acceder a la plataforma.
+        </div>
+        <div style="grid-row: 6; grid-column: 3;">
+            <div class="item" style="height: 100%;">
+                <button (click)="redirectToProfile()" style="width: 30vw; height: 15vh; font-size: 2em; font-weight: bold; border-radius: 50px; background-color: darkblue; color: white;">
+                    Ir al Perfil
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

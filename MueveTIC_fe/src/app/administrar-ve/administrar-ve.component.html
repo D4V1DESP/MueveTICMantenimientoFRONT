@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehículos</title>
+    <style>
+        body {
+            background-color: lightblue;
+            margin: 0;
+            height: 100vh;
+            display: grid;
+        }
+
+        form {
+            grid-row: 4;
+            grid-column: 2/4;
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        menu {
+            grid-row: 4;
+            grid-column: 2/4;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .bloque-interfaz {
+            grid-row: 2/8;
+            grid-column: 2/4;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+
+        .bloque-interfaz-li {
+            grid-row: 2/4;
+            grid-column: 2/6;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+
+        .button-text {
+            display: flex;
+            align-self: end;
+            justify-content: end;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .id-text {
+            grid-row: 3;
+            grid-column: 2;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .id-imput {
+            grid-row: 3;
+            grid-column: 3;
+            display: flex;
+            align-items: center;
+        }
+
+        .text-block {
+            grid-row: 4;
+            grid-column: 2;
+            display: grid;
+            align-content: flex-start;
+        }
+
+        .imput-block {
+            grid-row: 4;
+            grid-column: 3;
+            display: grid;
+            align-content: flex-start;
+        }
+
+        .item-text {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .text-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .numeric-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+        }
+
+        .date-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+        }
+
+        li button * {pointer-events: none;}
+    </style>
+</head>
+<body *ngIf="page==0 || page==1" style="grid-template-rows: 1fr 3fr 2fr 10fr 1fr 2fr 1fr 1fr; grid-template-columns: 6fr 5fr 5fr 6fr;">
+    <div class="bloque-interfaz"></div>
+    <div class="item" style="grid-row: 2; grid-column: 2 / 4; font-size: 4em; font-weight: bold;">
+        Vehículos
+    </div>
+    <div class="id-text">
+        Matrícula
+    </div>
+    <div class="id-imput">
+        <input type="text" name="id" class="text-input" [(ngModel)]="id" [disabled]="page == 1">
+    </div>
+    <form *ngIf="page == 1">
+        <div class="item-text" style="grid-row: 1; grid-column: 1;">Tipo</div>
+        <div class="item-text" style="grid-row: 2; grid-column: 1;">Modelo</div>
+        <div class="item-text" style="grid-row: 3; grid-column: 1;">Dirección</div>
+        <div class="item-text" style="grid-row: 4; grid-column: 1;">Estado</div>
+        <div class="item-text" style="grid-row: 5; grid-column: 1;">Batería</div>
+        <div *ngIf="type=='Coche'" class="item-text" style="grid-row: 6; grid-column: 1;"> Número de plazas </div>
+        <div *ngIf="type=='Moto'" class="item-text" style="grid-row: 6; grid-column: 1;"> Casco </div>
+        <div *ngIf="type=='Patinete'" class="item-text" style="grid-row: 6; grid-column: 1;"> Color </div>
+        <select type="text" name= "type" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="type" [disabled]="!crearVe">
+            <option value="Coche">Coche</option>
+            <option value="Moto">Moto</option>
+            <option value="Patinete">Patinete</option>
+        </select>
+        <input type="text" name= "model" style="grid-row: 2; grid-column: 2;" class="text-input" [(ngModel)]="model" [disabled]=isUser()>
+        <input type="text" name= "address" style="grid-row: 3; grid-column: 2;" class="text-input" [(ngModel)]="address" [disabled]=isUser()>
+        <select type="text" name= "estado" style="grid-row: 4; grid-column: 2;" class="text-input" [(ngModel)]="estado" disabled="">
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="RESERVADO">Reservado</option>
+            <option value="EN_USO">En uso</option>
+            <option value="DE_BAJA">De baja</option>
+            <option value="PENDIENTE_CARGA">Pendiente de carga</option>
+        </select>
+        <input type="text" name= "battery" style="grid-row: 5; grid-column: 2;" class="text-input" [(ngModel)]="battery">
+        <input *ngIf="type=='Coche'" type="number" min="1" name= "vTypeValue" style="grid-row: 6; grid-column: 2;" class="numeric-input" [(ngModel)]="vTypeValue" [disabled]=isUser()>
+        <select *ngIf="type=='Moto'" type="text" name= "vTypeValue" style="grid-row: 6; grid-column: 2;" class="text-input" [(ngModel)]="vTypeValue" [disabled]=isUser()>
+            <option value="true">Tiene casco</option>
+            <option value="false">No tiene casco</option>
+        </select>
+        <input *ngIf="type=='Patinete'" type="text" name= "vTypeValue" style="grid-row: 6; grid-column: 2;" class="text-input" [(ngModel)]="vTypeValue" [disabled]=isUser()>
+    </form>
+    <div class="item" style="color: red; grid-row: 5; grid-column: 2 / 4; font-size: 15px; font-weight: bold;"> {{ msg }} </div>
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !crearVe && isAdmin()" class="item" style="grid-row: 6; grid-column: 2;">
+        <button (click)="delete()">
+            Eliminar
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !crearVe  && isAdmin()" class="item" style="grid-row: 6; grid-column: 3;">
+        <button (click)="mod()">
+            Modificar
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarReserva && estado=='DISPONIBLE' && isUser()" class="item" style="grid-row: 6; grid-column: 2/4;">
+        <p *ngIf="this.haveReserve">Ya tienes una <a (click)="redirectToReservations()" style="color: blue; text-decoration: underline; cursor: pointer;">reserva activa</a>, finalizala antes de reservar otro vehículo<p>
+        <button *ngIf="!this.haveReserve" (click)="reserv()">
+            Reservar
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarCrear && crearVe" class="item" style="grid-row: 6; grid-column: 2/4;">
+        <button (click)="create()">
+            Crear Vehículo
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarCrear" class="item" style="grid-row: 7; grid-column: 2/4; margin-bottom: 10px;">
+        <button (click)="cancelSelect()">
+            Cambiar Vehículo
+        </button>
+    </div>
+    <div *ngIf="confirmarEliminar" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelDelete()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Eliminación
+        </button>
+        <button (click)="confirmDelete()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Eliminación
+        </button>
+    </div>
+    <div *ngIf="confirmarModificar" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelMod()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Modificación
+        </button>
+        <button (click)="confirmMod()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Modificación
+        </button>
+    </div>
+    <div *ngIf="confirmarReserva" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelReserv()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Reserva
+        </button>
+        <button (click)="confirmReserv()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Reserva
+        </button>
+    </div>
+    <div *ngIf="confirmarCrear" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelCreate()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Creación
+        </button>
+        <button (click)="confirmCreate()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Creación
+        </button>
+    </div>
+    <menu *ngIf="page == 0 && isAdmin()" style="padding: 0;">
+        <button (click)="createV()" style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
+            Crear vehículo
+        </button>
+        <button (click)="select()" style="grid-column: 2; grid-row: 1; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+            Seleccionar vehículo
+        </button>
+        <button (click)="list()" style="grid-column: 2; grid-row: 2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+            Consultar lista
+        </button>
+    </menu>
+    <menu *ngIf="page == 0 && isUser()" style="padding: 0;">
+        <button (click)="select()" style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
+            Seleccionar vehículo
+        </button>
+        <button (click)="list()" style="grid-column: 2; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+            Consultar lista
+        </button>
+    </menu>
+    <div *ngIf="page == 0" class="item" style="grid-row: 7; grid-column: 2 / 4;">
+        <button (click)="menu()" style="grid-row: 7; grid-column: 2 / 4; margin-bottom: 10px; width: 250px; height: 50px; font-size: 2em; font-weight: bold; border-radius: 40px; background-color: darkblue; color: white;">
+            Volver al menu
+        </button>
+    </div>
+</body>
+<body *ngIf="page==2" style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
+    <div class="bloque-interfaz-li"></div>
+    <div class="bloque-interfaz-li" style="grid-row: 2; background-color: blue; display: grid; grid-template-rows: 1fr 4fr 1fr 4fr 1fr; grid-template-columns: 1fr 4fr 10px 4fr 20px 4fr 1fr;">
+        <div class="item-text" style="justify-content: end; font-weight: bold; grid-row: 2; grid-column: 2; color: white">
+            Tipo:
+        </div>
+        <select type="item-text" name="filterType" style="justify-content: start; grid-row: 2; grid-column: 4;" class="text-input" [(ngModel)]="filterType">
+            <option value="Coche">Coche</option>
+            <option value="Moto">Moto</option>
+            <option value="Patinete">Patinete</option>
+        </select>
+        <div class="item-text" style="justify-content: end; font-weight: bold; grid-row: 4; grid-column: 2; color: white">
+            Disponible:
+        </div>
+        <select type="item-text" name="filterDis" style="justify-content: start; grid-row: 4; grid-column: 4;" class="text-input" [(ngModel)]="filterDis" [disabled]="isUser()">
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="RESERVADO">Reservado</option>
+            <option value="EN_USO">En uso</option>
+            <option value="DE_BAJA">De baja</option>
+            <option value="PENDIENTE_CARGA">Pendiente de carga</option>
+        </select>
+        <button (click)="search()" style="grid-row: 2; grid-column: 6; border-radius: 25px;">
+            Buscar
+        </button>
+        <button (click)="cancelSelect()" style="grid-row: 4; grid-column: 6; border-radius: 25px;">
+            Volver
+        </button>
+    </div>
+    <div class="item" style="grid-row: 3; grid-column: 3/5; flex-direction: column;">
+      <li *ngFor="let vehicle of lstVehicles" style="list-style: none;">
+        <button (click)="selecionarVe(vehicle['licensePlate'])" style="width: 100%; height: 40px; margin: 10px; display: grid; grid-template-rows: 5px 1fr 10px 1fr 5px; grid-template-columns: 1fr 2fr 5px 4fr 10px 2fr 5px 2fr 1fr; background-color: aquamarine; border-radius: 20px;">
+            <div class="button-text" style="grid-row: 2; grid-column: 2;">
+                Matrícula:
+            </div>
+            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 4;" [(ngModel)]="vehicle['licensePlate']" [disabled]=true>
+            <div class="button-text" style="grid-row: 2; grid-column: 6;">
+                Disponible:
+            </div>
+            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 8;" [(ngModel)]="vehicle['status']" [disabled]=true>
+        </button>
+      </li>
+      <p *ngIf="lstVehicles.length==0">No se han encontrado vehículos</p>
+    </div>
+</body>
+</html>

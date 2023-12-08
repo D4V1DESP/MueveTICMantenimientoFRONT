@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <style>
+        body {
+            background-color: lightblue;
+            margin: 0;
+            height: 100vh;
+            display: grid;
+        }
+
+        form {
+            grid-row: 3;
+            grid-column: 2/4;
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        menu {
+            grid-row: 3/5;
+            grid-column: 2/4;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .bloque-interfaz {
+            grid-row: 2/8;
+            grid-column: 2/4;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+
+        .bloque-interfaz-li {
+            grid-row: 2/4;
+            grid-column: 2/6;
+            background-color: white;
+            border: 5px solid darkblue;
+            border-radius: 50px;
+        }
+
+        .button-text {
+            display: flex;
+            align-self: end;
+            justify-content: end;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .id-text {
+            grid-row: 3;
+            grid-column: 2;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .id-imput {
+            grid-row: 3;
+            grid-column: 3;
+            display: flex;
+            align-items: center;
+        }
+
+        .text-block {
+            grid-row: 4;
+            grid-column: 2;
+            display: grid;
+            align-content: flex-start;
+        }
+
+        .imput-block {
+            grid-row: 4;
+            grid-column: 3;
+            display: grid;
+            align-content: flex-start;
+        }
+
+        .item-text {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .text-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .numeric-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+        }
+
+        .date-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90px;
+            padding: 5px;
+            border: 1px solid #aaa;
+            margin-left: 10px;
+        }
+
+        li button * {pointer-events: none;}
+    </style>
+</head>
+<body *ngIf="(page==0 || page==1) && isUser()" style="grid-template-rows: 1fr 3fr 7fr 6fr 1fr 2fr 1fr 1fr; grid-template-columns: 6fr 5fr 5fr 6fr;">
+    <div class="bloque-interfaz"></div>
+    <div *ngIf="(page==0) || !(id==='')" class="item" style="grid-row: 2; grid-column: 2 / 4; font-size: 4em; font-weight: bold;">
+        Reservas
+    </div>
+    <menu *ngIf="page == 0" style="padding: 0;">
+        <button (click)="select()" style="grid-column: 1; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;" class="item">
+            Ver reserva actual
+        </button>
+        <button (click)="list()" style="grid-column: 2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;" class="item">
+            Consultar historial
+        </button>
+    </menu>
+    <form *ngIf="(page==1) && !(id==='')">
+        <div class="item-text" style="grid-row: 1; grid-column: 1;">ID reserva</div>
+        <div class="item-text" style="grid-row: 2; grid-column: 1;">Matrícula vehículo</div>
+        <div class="item-text" style="grid-row: 3; grid-column: 1;">Estado</div>
+        <div class="item-text" style="grid-row: 4; grid-column: 1;">Fecha de inicio</div>
+        <div class="item-text" style="grid-row: 5; grid-column: 1;">Fecha de fin</div>
+        <div *ngIf="(status=='FINALIZADA') || (confirmarFinalizacion)" class="item-text" style="grid-row: 6; grid-column: 1;">Valoración</div>
+        <input type="text" name="id" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="id" [disabled]=true>
+        <input type="text" name="vehicle" style="grid-row: 2; grid-column: 2;" class="text-input" [(ngModel)]="vehicle" [disabled]=true>
+        <select type="text" name="status" style="grid-row: 3; grid-column: 2;" class="text-input" [(ngModel)]="status" [disabled]=true>
+            <option value="ACTIVA">Activa</option>
+            <option value="CANCELADA">Cancelada</option>
+            <option value="FINALIZADA">Finalizada</option>
+        </select>
+        <input type="text" name="startDate" style="grid-row: 4; grid-column: 2;" class="date-input" [(ngModel)]="startDate" [disabled]=true>
+        <input type="text" name="endDate" style="grid-row: 5; grid-column: 2;" class="date-input" [(ngModel)]="endDate" [disabled]=true>
+        <input *ngIf="(status=='FINALIZADA') || (confirmarFinalizacion)" type="number" name="valuation" style="grid-row: 6; grid-column: 2;" min="0" max="10" class="numeric-input" [(ngModel)]="valuation" [disabled]=!confirmarFinalizacion>
+    </form>
+    <div *ngIf="(page==1) && !(id==='') && ((status=='FINALIZADA') || (confirmarFinalizacion))" style="grid-row: 4; grid-column: 2/4; display: grid; grid-template-rows: 1fr 5fr 1fr;  grid-template-columns: 1fr 6fr 1fr">
+        <div class="item-text" style="grid-row: 1; grid-column: 2; margin-left: 10px; margin-right: auto;">Comentario:</div>
+        <textarea type="text" name="comment" style="grid-row: 2; grid-column: 2; height: 100%; width: 100%;" class="text-input" [(ngModel)]="comment" [disabled]=!confirmarFinalizacion></textarea>
+    </div>
+    <div class="item" style="color: red; grid-row: 5; grid-column: 2 / 4; font-size: 15px; font-weight: bold;"> {{ msg }} </div>
+    <div *ngIf="page == 1 && !(id==='') && !confirmarCancelacion && !confirmarFinalizacion" class="item" style="grid-row: 6; grid-column: 2;">
+        <button *ngIf="(status=='ACTIVA')" (click)="cancel()">
+            Cancelar Reserva
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !(id==='') && !confirmarCancelacion && !confirmarFinalizacion" class="item" style="grid-row: 6; grid-column: 3;">
+        <button *ngIf="(status=='ACTIVA')" (click)="finish()">
+            Finalizar Reserva
+        </button>
+    </div>
+    <div *ngIf="page == 1 && (id==='' || id ===null || id===undefined)" class="item" style="grid-row: 2/6; grid-column: 2/4; display: grid; grid-template-rows: 6fr 2fr; grid-template-columns: 1fr 4fr 1fr;">
+        <div style="grid-row: 1; grid-column: 2; font-weight: bold; font-size: 3em; color: red; margin: 20px; text-align: center;" class="item">
+            No tiene ninguna reserva activa
+        </div>
+        <button (click)="reservVeh()" style="grid-row: 2; grid-column: 2; width: 100%; height: 100%; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; background-color: darkblue; color: white;" class="item">
+            Reservar un vehículo
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarCancelacion && !confirmarFinalizacion" class="item" style="grid-row: 7; grid-column: 2/4; margin-bottom: 10px;">
+        <button (click)="cancelSelect()">
+            Menu reservas
+        </button>
+    </div>
+    <div *ngIf="confirmarCancelacion" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelCancel()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Proceso
+        </button>
+        <button (click)="confirmCancel()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Finalizar Proceso
+        </button>
+    </div>
+    <div *ngIf="confirmarFinalizacion" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelFinish()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Finalización
+        </button>
+        <button *ngIf="(valuation!=null && comment!=null)" (click)="confirmFinish()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Finalización
+        </button>
+    </div>
+    <div *ngIf="page == 0" class="item" style="grid-row: 7; grid-column: 2 / 4;">
+        <button (click)="menu()" style="grid-row: 7; grid-column: 2 / 4; margin-bottom: 10px; width: 250px; height: 50px; font-size: 2em; font-weight: bold; border-radius: 40px; background-color: darkblue; color: white;">
+            Volver al menu
+        </button>
+    </div>
+</body>
+<body *ngIf="page==2" style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
+    <div class="bloque-interfaz-li"></div>
+    <div class="bloque-interfaz-li" style="grid-row: 2; background-color: blue; display: grid; grid-template-rows: 1fr 4fr 1fr 4fr 1fr; grid-template-columns: 1fr 4fr 10px 4fr 20px 4fr 1fr;">
+        <div class="item-text" style="justify-content: end; font-weight: bold; grid-row: 2/span3; grid-column: 2; color: white">
+            Estado:
+        </div>
+        <select type="item-text" name="filterStatus" style="height: 40%; align-self: center; grid-row: 2/span3; grid-column: 4;" class="text-input" [(ngModel)]="filterStatus">
+            <option value="ACTIVA">Activa</option>
+            <option value="CANCELADA">Cancelada</option>
+            <option value="FINALIZADA">Finalizada</option>
+        </select>
+        <button (click)="search()" style="grid-row: 2; grid-column: 6; border-radius: 25px;">
+            Buscar
+        </button>
+        <button (click)="cancelSelect()" style="grid-row: 4; grid-column: 6; border-radius: 25px;">
+            Volver
+        </button>
+    </div>
+    <div class="item" style="grid-row: 3; grid-column: 3/5; flex-direction: column; list-style: none;">
+      <li *ngFor="let reserv of lstReserv" style="list-style: none;">
+        <button (click)="selecionarRe(reserv)" style="width: 100%; height: 40px; margin: 10px; display: grid; grid-template-rows: 5px 1fr 10px 1fr 5px; grid-template-columns: 1fr 2fr 5px 3fr 10px 2fr 5px 2fr 7px 2fr 5px 2fr 1fr; background-color: aquamarine; border-radius: 20px;">
+            <div class="button-text" style="grid-row: 2; grid-column: 2;">
+                Matricula:
+            </div>
+            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 4;" [(ngModel)]="reserv['vehicle']['licensePlate']" [disabled]=true>
+            <div class="button-text" style="grid-row: 2; grid-column: 6;">
+                Inicio:
+            </div>
+            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 8;" [(ngModel)]="reserv['start']" [disabled]=true>
+            <div class="button-text" style="grid-row: 2; grid-column: 10;">
+                Fin:
+            </div>
+            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 12;" [(ngModel)]="reserv['end']" [disabled]=true>
+        </button>
+      </li>
+      <p *ngIf="lstReserv.length==0">No se han encontrado reservas</p>
+    </div>
+</body>
+</html>
