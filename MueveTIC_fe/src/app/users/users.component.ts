@@ -369,9 +369,7 @@ export class UsersComponent {
         surname: this.surename,
         email: this.usercreateemail,
         password: this.pass,
-        city: this.town,
-        experience: this.years,
-        telephone: this.telfNumber
+        city: this.town
       })
     }
     this.confirmarCrear=false

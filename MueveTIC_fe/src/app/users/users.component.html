@@ -192,7 +192,7 @@
             <option value="TELEPHONE_ATTENTION"> atencion telefonica</option>
             <option *ngIf="!crearP" value="MEMBER">Usuario</option>
         </select>
-        <div *ngIf="type=='ADMIN' || type=='TELEPHONE_ATTENTION'"
+        <div *ngIf="type=='ADMIN' || type == 'TELEPHONE_ATTENTION'"
             style="grid-row: 5/8; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 2fr; grid-template-columns: 1fr 1fr;">
             <div class="item-text" style="grid-row: 1; grid-column: 1;">Ciudad</div>
             <input type="text" name="town" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="town">
