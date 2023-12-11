@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,7 +133,9 @@
         }
 
 
-        li button * {pointer-events: none;}
+        li button * {
+            pointer-events: none;
+        }
 
         .blocked {
             background-color: gainsboro;
@@ -149,7 +152,9 @@
         }
     </style>
 </head>
-<body *ngIf="(page==0 || page==1) && isAdmin()" style="grid-template-rows: 1fr 3fr 2fr 10fr 1fr 2fr 1fr 1fr; grid-template-columns: 6fr 5fr 5fr 6fr;">
+
+<body *ngIf="(page==0 || page==1) && isAdmin()"
+    style="grid-template-rows: 1fr 3fr 2fr 10fr 1fr 2fr 1fr 1fr; grid-template-columns: 6fr 5fr 5fr 6fr;">
     <div class="bloque-interfaz"></div>
     <div class="item" style="grid-row: 2; grid-column: 2 / 4; font-size: 4em; font-weight: bold;">
         Usuarios
@@ -161,7 +166,8 @@
         <input *ngIf="!this.crearP" type="text" name="id" class="text-input" [(ngModel)]="id" [disabled]="page == 1">
         <input [ngClass]="{
             'invalid': emailExists()
-        }" *ngIf="this.crearP" type="text" name="id" class="text-input" [(ngModel)]="usercreateemail" [disabled]="page == 1">
+        }" *ngIf="this.crearP" type="text" name="id" class="text-input" [(ngModel)]="usercreateemail"
+            [disabled]="page == 1">
     </div>
     <form *ngIf="page == 1">
         <div class="item-text" style="grid-row: 1; grid-column: 1;">Nombre</div>
@@ -170,89 +176,116 @@
         <div class="item-text" style="grid-row: 4; grid-column: 1;">Tipo</div>
         <input [ngClass]="{
             'invalid': !this.name
-          }" type="text" name= "name" (input)="updateEmail()" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="name">
+          }" type="text" name="name" (input)="updateEmail()" style="grid-row: 1; grid-column: 2;" class="text-input"
+            [(ngModel)]="name">
         <input [ngClass]="{
             'invalid': !this.surename
-          }" type="text" name= "surename" (input)="updateEmail()" style="grid-row: 2; grid-column: 2;" class="text-input" [(ngModel)]="surename">
+          }" type="text" name="surename" (input)="updateEmail()" style="grid-row: 2; grid-column: 2;"
+            class="text-input" [(ngModel)]="surename">
         <input [ngClass]="{
             'invalid': !isValidDNI()
-          }" type="text" name= "dni" style="grid-row: 3; grid-column: 2;" class="text-input" [(ngModel)]="dni">
-        <select type="text" name= "type" style="grid-row: 4; grid-column: 2;" class="text-input" [(ngModel)]="type" [disabled]="!crearP">
+          }" type="text" name="dni" style="grid-row: 3; grid-column: 2;" class="text-input" [(ngModel)]="dni">
+        <select type="text" name="type" style="grid-row: 4; grid-column: 2;" class="text-input" [(ngModel)]="type"
+            [disabled]="!crearP">
             <option value="ADMIN">Admin</option>
             <option value="MAINTENANCE">Encargado</option>
+            <option value="TELEPHONE_ATTENTION"> atencion telefonica</option>
             <option *ngIf="!crearP" value="MEMBER">Usuario</option>
         </select>
-        <div *ngIf="type=='ADMIN'" style="grid-row: 5/8; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 2fr; grid-template-columns: 1fr 1fr;">
+        <div *ngIf="type=='ADMIN' || type=='TELEPHONE_ATTENTION'"
+            style="grid-row: 5/8; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 2fr; grid-template-columns: 1fr 1fr;">
             <div class="item-text" style="grid-row: 1; grid-column: 1;">Ciudad</div>
-            <input type="text" name= "town" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="town">
-            <div *ngIf="crearP" style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <input type="text" name="town" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="town">
+            <div *ngIf="crearP"
+                style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Contraseña</div>
                 <div class="item-text" style="grid-row: 2; grid-column: 1;">Confirmar Contraseña</div>
                 <input [ngClass]="{
                     'invalid': !this.pass || this.pass != this.confPass
-                  }" type="password" name= "pass" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="pass">
+                  }" type="password" name="pass" style="grid-row: 1; grid-column: 2;" class="text-input"
+                    [(ngModel)]="pass">
                 <input [ngClass]="{
                     'invalid': !this.confPass || this.pass != this.confPass
-                  }" type="password" name= "confPass" style="grid-row: 2; grid-column: 2;" class="text-input" [(ngModel)]="confPass">
+                  }" type="password" name="confPass" style="grid-row: 2; grid-column: 2;" class="text-input"
+                    [(ngModel)]="confPass">
             </div>
-            <div *ngIf="!crearP" style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <div *ngIf="!crearP"
+                style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Estado</div>
-                <select type="text" name= "status" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="status" [disabled]=true>
+                <select type="text" name="status" style="grid-row: 1; grid-column: 2;" class="text-input"
+                    [(ngModel)]="status" [disabled]=true>
                     <option value="true">Habilitado</option>
                     <option value="false">Deshabilitado</option>
                 </select>
             </div>
         </div>
-        <div *ngIf="type=='MAINTENANCE' || type=='MEMBER'" style="grid-row: 5/10; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 2fr 2fr; grid-template-columns: 1fr 1fr;">
+        <div *ngIf="type=='MAINTENANCE' || type=='MEMBER'"
+            style="grid-row: 5/10; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 2fr 2fr; grid-template-columns: 1fr 1fr;">
             <div class="item-text" style="grid-row: 1; grid-column: 1;">Carnet</div>
-            <input type="text" name= "licence" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="drivingLicense">
-            <div *ngIf="type=='MAINTENANCE'" style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <input type="text" name="licence" style="grid-row: 1; grid-column: 2;" class="text-input"
+                [(ngModel)]="drivingLicense">
+            <div *ngIf="type=='MAINTENANCE'"
+                style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Ciudad</div>
-                <input type="text" name= "town" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="town">
+                <input type="text" name="town" style="grid-row: 1; grid-column: 2;" class="text-input"
+                    [(ngModel)]="town">
                 <div class="item-text" style="grid-row: 2; grid-column: 1;">Años de Experiencia</div>
-                <input type="number" name="years" style="grid-row: 2; grid-column: 2;" class="numeric-input" [(ngModel)]="years">
+                <input type="number" name="years" style="grid-row: 2; grid-column: 2;" class="numeric-input"
+                    [(ngModel)]="years">
             </div>
-            <div *ngIf="type=='MEMBER'" style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <div *ngIf="type=='MEMBER'"
+                style="grid-row: 2; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Fecha de nacimiento</div>
-                <input type="date" name="birthdate" [(ngModel)]="this.birthdate" style="background-color: white;" style="width: 200px; padding: 5px; margin-left: 10px; margin-right: 10px;">
+                <input type="date" name="birthdate" [(ngModel)]="this.birthdate" style="background-color: white;"
+                    style="width: 200px; padding: 5px; margin-left: 10px; margin-right: 10px;">
                 <div class="item-text" style="grid-row: 2; grid-column: 1;">Número de teléfono</div>
                 <input [ngClass]="{
                   'invalid': !isValidTelf()
-                }" type="number" name= "telfNumber" style="grid-row: 2; grid-column: 2;" class="numeric-input" [(ngModel)]="telfNumber">
+                }" type="number" name="telfNumber" style="grid-row: 2; grid-column: 2;" class="numeric-input"
+                    [(ngModel)]="telfNumber">
             </div>
-            <div *ngIf="crearP" style="grid-row: 3; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <div *ngIf="crearP"
+                style="grid-row: 3; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Contraseña</div>
                 <div class="item-text" style="grid-row: 2; grid-column: 1;">Confirmar Contraseña</div>
                 <input [ngClass]="{
                     'invalid': !this.pass || this.pass != this.confPass
-                  }" type="password" name= "pass" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="pass">
+                  }" type="password" name="pass" style="grid-row: 1; grid-column: 2;" class="text-input"
+                    [(ngModel)]="pass">
                 <input [ngClass]="{
                     'invalid': !this.confPass || this.pass != this.confPass
-                  }" type="password" name= "confPass" style="grid-row: 2; grid-column: 2;" class="text-input" [(ngModel)]="confPass">
+                  }" type="password" name="confPass" style="grid-row: 2; grid-column: 2;" class="text-input"
+                    [(ngModel)]="confPass">
             </div>
-            <div *ngIf="!crearP" style="grid-row: 3; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
+            <div *ngIf="!crearP"
+                style="grid-row: 3; grid-column: 1/span2; display: grid; grid-template-rows: 1fr 1fr; grid-template-columns: 1fr 1fr;">
                 <div class="item-text" style="grid-row: 1; grid-column: 1;">Estado</div>
-                <select type="text" name= "status" style="grid-row: 1; grid-column: 2;" class="text-input" [(ngModel)]="status" [disabled]=true>
+                <select type="text" name="status" style="grid-row: 1; grid-column: 2;" class="text-input"
+                    [(ngModel)]="status" [disabled]=true>
                     <option value="true">Habilitado</option>
                     <option value="false">Deshabilitado</option>
                 </select>
             </div>
         </div>
     </form>
-    <div class="item" style="color: red; grid-row: 5; grid-column: 2 / 4; font-size: 15px; font-weight: bold;"> {{ msg }}</div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP" class="item" style="grid-row: 6; grid-column: 2;">
+    <div class="item" style="color: red; grid-row: 5; grid-column: 2 / 4; font-size: 15px; font-weight: bold;"> {{ msg
+        }}</div>
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP"
+        class="item" style="grid-row: 6; grid-column: 2;">
         <button (click)="delete()">
             Bloquear
         </button>
     </div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP" class="item" style="grid-row: 6; grid-column: 3;">
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP"
+        class="item" style="grid-row: 6; grid-column: 3;">
         <button [ngClass]="{
           'blocked': !isValid()
-        }" (click)="mod()" [disabled]="!isValid()" >
+        }" (click)="mod()" [disabled]="!isValid()">
             Modificar
         </button>
     </div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && status==false" class="item" style="grid-row: 6; grid-column: 2;">
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && status==false"
+        class="item" style="grid-row: 6; grid-column: 2;">
         <button (click)="reactivate()">
             Reactivar
         </button>
@@ -264,75 +297,95 @@
             Crear Perfil
         </button>
     </div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarCrear" class="item" style="grid-row: 7; grid-column: 2/4; margin-bottom: 10px;">
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarCrear" class="item"
+        style="grid-row: 7; grid-column: 2/4; margin-bottom: 10px;">
         <button (click)="cancelSelect()">
             Cambiar Usuario
         </button>
     </div>
     <div *ngIf="confirmarEliminar" class="item" style="grid-row: 6; grid-column: 2 / 4;">
-        <button (click)="cancelDelete()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="cancelDelete()"
+            style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Cancelar Bloqueo
         </button>
-        <button (click)="confirmDelete()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="confirmDelete()"
+            style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Confirmar Bloqueo
         </button>
     </div>
     <div *ngIf="confirmarModificar" class="item" style="grid-row: 6; grid-column: 2 / 4;">
-        <button (click)="cancelMod()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="cancelMod()"
+            style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Cancelar Modificación
         </button>
-        <button (click)="confirmMod()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="confirmMod()"
+            style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Confirmar Modificación
         </button>
     </div>
     <div *ngIf="confirmarReactivacion" class="item" style="grid-row: 6; grid-column: 2 / 4;">
-        <button (click)="cancelReactivation()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="cancelReactivation()"
+            style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Cancelar Reactivación
         </button>
-        <button (click)="confirmReactivation()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="confirmReactivation()"
+            style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Confirmar Reactivación
         </button>
     </div>
     <div *ngIf="confirmarCrear" class="item" style="grid-row: 6; grid-column: 2 / 4;">
-        <button (click)="cancelCreate()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="cancelCreate()"
+            style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Cancelar Creación
         </button>
-        <button (click)="confirmCreate()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+        <button (click)="confirmCreate()"
+            style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Confirmar Creación
         </button>
     </div>
     <menu *ngIf="page == 0" style="padding: 0;">
-        <button (click)="createP()" style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
+        <button (click)="createP()"
+            style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
             Crear Perfil
         </button>
-        <button (click)="select('MEMBER')" style="grid-column: 2; grid-row: 1; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+        <button (click)="select('MEMBER')"
+            style="grid-column: 2; grid-row: 1; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
             Seleccionar Usuario
         </button>
-        <button (click)="list()" style="grid-column: 2; grid-row: 2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+        <button (click)="list()"
+            style="grid-column: 2; grid-row: 2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
             Consultar lista
         </button>
     </menu>
     <div *ngIf="page == 0" class="item" style="grid-row: 7; grid-column: 2 / 4;">
-        <button (click)="menu()" style="grid-row: 7; grid-column: 2 / 4; margin-bottom: 10px; width: 250px; height: 50px; font-size: 2em; font-weight: bold; border-radius: 40px; background-color: darkblue; color: white;">
+        <button (click)="menu()"
+            style="grid-row: 7; grid-column: 2 / 4; margin-bottom: 10px; width: 250px; height: 50px; font-size: 2em; font-weight: bold; border-radius: 40px; background-color: darkblue; color: white;">
             Volver al menu
         </button>
     </div>
 </body>
-<body *ngIf="page==2 && isAdmin()" style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
+
+<body *ngIf="page==2 && isAdmin()"
+    style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
     <div class="bloque-interfaz-li"></div>
-    <div class="bloque-interfaz-li" style="grid-row: 2; background-color: blue; display: grid; grid-template-rows: 1fr 4fr 1fr 4fr 1fr; grid-template-columns: 1fr 4fr 10px 4fr 20px 4fr 1fr;">
-        <div class="item-text" style="justify-content: end; font-weight: bold; grid-row: 2; grid-column: 2; color: white">
+    <div class="bloque-interfaz-li"
+        style="grid-row: 2; background-color: blue; display: grid; grid-template-rows: 1fr 4fr 1fr 4fr 1fr; grid-template-columns: 1fr 4fr 10px 4fr 20px 4fr 1fr;">
+        <div class="item-text"
+            style="justify-content: end; font-weight: bold; grid-row: 2; grid-column: 2; color: white">
             Tipo:
         </div>
-        <select type="item-text" name="filterType" style="justify-content: start; grid-row: 2; grid-column: 4;" class="text-input" [(ngModel)]="type">
+        <select type="item-text" name="filterType" style="justify-content: start; grid-row: 2; grid-column: 4;"
+            class="text-input" [(ngModel)]="type">
             <option value="ADMIN">Admin</option>
             <option value="MAINTENANCE">Encargado</option>
             <option value="MEMBER">Usuario</option>
         </select>
-        <div class="item-text" style="justify-content: end; font-weight: bold; grid-row: 4; grid-column: 2; color: white">
+        <div class="item-text"
+            style="justify-content: end; font-weight: bold; grid-row: 4; grid-column: 2; color: white">
             Estado:
         </div>
-        <select type="item-text" name="filterHab" style="justify-content: start; grid-row: 4; grid-column: 4;" class="text-input" [(ngModel)]="filterHab">
+        <select type="item-text" name="filterHab" style="justify-content: start; grid-row: 4; grid-column: 4;"
+            class="text-input" [(ngModel)]="filterHab">
             <option value=true>Habilitado</option>
             <option value=false>Deshabilitado</option>
         </select>
@@ -344,19 +397,23 @@
         </button>
     </div>
     <div class="item" style="grid-row: 3; grid-column: 3/5; flex-direction: column;">
-      <li *ngFor="let user of lstUsers" style="list-style: none;">
-        <button (click)="selecionarPerf(user['id'])" style="width: 100%; height: 40px; margin: 10px; display: grid; grid-template-rows: 5px 1fr 10px 1fr 5px; grid-template-columns: 1fr 2fr 5px 4fr 10px 2fr 5px 2fr 1fr; background-color: aquamarine; border-radius: 20px;">
-            <div class="button-text" style="grid-row: 2; grid-column: 2;">
-                Email:
-            </div>
-            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 4;" [(ngModel)]="user.email" [disabled]=true>
-            <div class="button-text" style="grid-row: 2; grid-column: 6;">
-                Nombre:
-            </div>
-            <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 8;" [(ngModel)]="user.name" [disabled]=true>
-        </button>
-      </li>
-      <p *ngIf="lstUsers.length==0">No se han encontrado usuarios</p>
+        <li *ngFor="let user of lstUsers" style="list-style: none;">
+            <button (click)="selecionarPerf(user['id'])"
+                style="width: 100%; height: 40px; margin: 10px; display: grid; grid-template-rows: 5px 1fr 10px 1fr 5px; grid-template-columns: 1fr 2fr 5px 4fr 10px 2fr 5px 2fr 1fr; background-color: aquamarine; border-radius: 20px;">
+                <div class="button-text" style="grid-row: 2; grid-column: 2;">
+                    Email:
+                </div>
+                <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 4;"
+                    [(ngModel)]="user.email" [disabled]=true>
+                <div class="button-text" style="grid-row: 2; grid-column: 6;">
+                    Nombre:
+                </div>
+                <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 8;"
+                    [(ngModel)]="user.name" [disabled]=true>
+            </button>
+        </li>
+        <p *ngIf="lstUsers.length==0">No se han encontrado usuarios</p>
     </div>
 </body>
+
 </html>
