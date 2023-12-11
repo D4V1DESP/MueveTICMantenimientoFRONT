@@ -1,0 +1,44 @@
+body {
+    background-color: lightblue;
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 8fr 1fr 1fr 1fr 1fr 6fr 1fr 1fr 2fr 6fr;
+}
+.bloque-interfaz {
+    grid-row: 2/9;
+    grid-column: 2/5;
+    background-color: white;
+    border: 5px solid darkblue;
+    border-radius: 50px;
+}
+.text {
+    display: flex;
+    align-self: end;
+    justify-content: start;
+    font-size: 2em;
+    font-weight: bold;
+}
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.grid {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 8fr 1fr 1fr 1fr 1fr 10fr 1fr 1fr 2fr 6fr;
+    grid-template-columns: 10fr 1fr 40fr 1fr 10fr;
+}
+.home-btn {
+    font-size: 2em;
+    font-weight: bold;
+    border-radius: 50px;
+    background-color: darkblue;
+    color: white;
+    height: 50%;
+    width: 100%;
+}
+.menu-btn {
+    width: 30%;
+}

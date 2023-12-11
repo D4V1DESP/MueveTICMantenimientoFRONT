@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="atencion-telefonica.component.css">
+    <title>Atencion Telefonica</title>
+</head>
+
+<body>
+    <div class="grid" *ngIf="accountService.user.dni!=null">
+        <div class="bloque-interfaz"></div>
+        <div class="item">
+            ¡Bienvenido {{ accountService.user.name }}!
+        </div>
+        <div class="item menu-btn">
+            <button (click)="redirectToLogout()" class="home-btn">
+                Cerrar Sesión
+            </button>
+        </div>
+        <div class="item menu-btn">
+            <button (click)="redirectToProfile()" class="home-btn">
+                Perfil
+            </button>
+        </div>
+        <div *ngIf="accountService.user.role=='MEMBER'" class="item menu-btn">
+            <button (click)="redirectToReservas()" class="home-btn">
+                Reservas
+            </button>
+        </div>
+        <div *ngIf="accountService.user.role=='MEMBER'" class="item menu-btn">
+            <button (click)="redirectToVehiculos()" class="home-btn">
+                Consultas
+            </button>
+        </div>
+        <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
+            <button (click)="redirectToUsuarios()" class="home-btn">
+                Administrar Usuarios
+            </button>
+        </div>
+        <div *ngIf="accountService.user.role=='TELEPHONE_ATTENTION" class="item menu-btn">
+            <button (click)="redirectToVehiculos()" class="home-btn">
+                Administrar Vehiculos
+            </button>
+        </div>
+        <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
+            <button (click)="redirectToConfig()" class="home-btn">
+                Configuración
+            </button>
+        </div>
+    </div>
+    </div>
+    <div class="grid" *ngIf="accountService.user.dni==null">
+        <div class="bloque-interfaz"></div>
+        <div class="item">
+            ¡Bienvenido {{ accountService.user.name }}!
+        </div>
+        Pero aun nos falta un poco de información para poder acceder a la plataforma.
+    </div>
+
+        <button (click)="redirectToProfile()"></button>
+
+    </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

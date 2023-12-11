@@ -16,6 +16,7 @@ import { MenuComponent } from './menu/menu.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { ConstantsModule } from './constants';
 import { ConfigComponent } from './config/config.component';
+import { AtencionTelefonicaComponent } from './atencion-telefonica/atencion-telefonica.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ConfigComponent } from './config/config.component';
     OauthComponent,
     MenuComponent,
     ReservationsComponent,
-    ConfigComponent
+    ConfigComponent,
+    AtencionTelefonicaComponent
   ],
   imports: [
     BrowserModule,

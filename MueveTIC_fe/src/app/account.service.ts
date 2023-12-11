@@ -43,7 +43,15 @@ export class AccountService {
         error: _ => {}
       })
   }
-
+  telephoneAttention(info: any) {
+    this.httpClient.post(this.constantsModule.SERVER_URL + "/admins/createTelephoneAttention/", info, {withCredentials: true})
+      .subscribe({
+        next: respuesta => {
+          console.log(respuesta)
+        },
+        error: _ => {}
+      })
+  }
   delete(){
     if (confirm("¿Está seguro de que desea eliminar su cuenta?"))
       return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/", {withCredentials: true})

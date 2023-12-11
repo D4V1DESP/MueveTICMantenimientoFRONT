@@ -10,6 +10,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { OauthComponent } from './oauth/oauth.component';
 import { MenuComponent } from './menu/menu.component';
 import { ConfigComponent } from './config/config.component';
+import { AtencionTelefonicaComponent } from './atencion-telefonica/atencion-telefonica.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'oauth/redirect', component: OauthComponent },
   { path: 'config', component: ConfigComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'atencion-telefonica', component: AtencionTelefonicaComponent },
   {path: '**', redirectTo: ''}
 ];
 

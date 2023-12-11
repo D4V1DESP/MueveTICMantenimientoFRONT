@@ -329,7 +329,7 @@ export class UsersComponent {
 
   //Selecciona la opción
   createP(){
-    this.type = "MAINTENANCE"
+    this.type = "TELEPHONE_ATTENTION"
     this.crearP = true
     this.page = 1
   }
@@ -360,6 +360,18 @@ export class UsersComponent {
         drivingLicense: this.drivingLicense,
         city: this.town,
         experience: this.years
+      })
+    }
+    else if (this.type == "TELEPHONE_ATTENTION"){
+      this.AccountService.telephoneAttention({
+        dni: this.dni,
+        name: this.name,
+        surname: this.surename,
+        email: this.usercreateemail,
+        password: this.pass,
+        city: this.town,
+        experience: this.years,
+        telephone: this.telfNumber
       })
     }
     this.confirmarCrear=false
