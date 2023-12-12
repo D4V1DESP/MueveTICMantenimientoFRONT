@@ -17,6 +17,7 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { ConstantsModule } from './constants';
 import { ConfigComponent } from './config/config.component';
 import { AtencionTelefonicaComponent } from './atencion-telefonica/atencion-telefonica.component';
+import { ReservasTelefonicasComponent } from './reservas-telefonicas/reservas-telefonicas.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AtencionTelefonicaComponent } from './atencion-telefonica/atencion-tele
     MenuComponent,
     ReservationsComponent,
     ConfigComponent,
-    AtencionTelefonicaComponent
+    AtencionTelefonicaComponent,
+    ReservasTelefonicasComponent
   ],
   imports: [
     BrowserModule,

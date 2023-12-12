@@ -30,6 +30,10 @@ export class MenuComponent {
   redirectToConfig() {
     this.router.navigate(['/config']);
   }
+
+  redirectToReservasTelefonicas(){
+    this.router.navigate(['/reservasTelefonicas'])
+  }
   
   redirectToLogout() {
     this.router.navigate(['/logout']);

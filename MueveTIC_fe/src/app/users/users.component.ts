@@ -79,6 +79,7 @@ export class UsersComponent {
       next: respuesta => {
         this.msg = ""
         this.user = respuesta
+        console.log("Rol del usuario" + this.user.role)
         this.userInfo(this.user)
       },
       error: error => {
@@ -329,12 +330,13 @@ export class UsersComponent {
 
   //Selecciona la opción
   createP(){
-    this.type = "TELEPHONE_ATTENTION"
+    this.type = "TELEPHONEATTENTION"
     this.crearP = true
     this.page = 1
   }
 
   create(){
+    console.log(this.user)
     this.confirmarCrear=true
     this.msg = "Confime la creación del usuario"
   }
@@ -362,7 +364,7 @@ export class UsersComponent {
         experience: this.years
       })
     }
-    else if (this.type == "TELEPHONE_ATTENTION"){
+    else if (this.type == "TELEPHONEATTENTION"){
       this.AccountService.telephoneAttention({
         dni: this.dni,
         name: this.name,
@@ -387,6 +389,7 @@ export class UsersComponent {
   list(){
     this.page = 2
     this.lstUsers = []
+    console.log(this.type)
     this.AccountService.getUserList(this.type || "MEMBER").subscribe({
       next: (respuesta: any) => {
         let aux: any[] = []

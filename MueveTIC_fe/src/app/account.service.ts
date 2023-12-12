@@ -35,6 +35,7 @@ export class AccountService {
   }
 
   encargado(info: any) {
+    console.log(info)
     this.httpClient.post(this.constantsModule.SERVER_URL + "/admins/createMaintenance/", info, {withCredentials: true})
       .subscribe({
         next: respuesta => {
@@ -44,6 +45,7 @@ export class AccountService {
       })
   }
   telephoneAttention(info: any) {
+    console.log(info)
     this.httpClient.post(this.constantsModule.SERVER_URL + "/admins/createTelephoneAttention/", info, {withCredentials: true})
       .subscribe({
         next: respuesta => {

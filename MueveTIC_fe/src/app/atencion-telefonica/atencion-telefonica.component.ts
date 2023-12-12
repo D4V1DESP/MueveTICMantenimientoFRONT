@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./atencion-telefonica.component.css']
 })
 export class AtencionTelefonicaComponent {
-
+ 
 }

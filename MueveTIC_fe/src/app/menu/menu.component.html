@@ -78,6 +78,11 @@
                     Consultas
                 </button>
             </div>
+            <div *ngIf="accountService.user.role=='TELEPHONEATTENTION'" class="item menu-btn">
+                <button (click)="redirectToReservasTelefonicas()" class="home-btn">
+                    Consultas
+                </button>
+            </div>
             <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">
                 <button (click)="redirectToUsuarios()" class="home-btn">
                     Administrar Usuarios
