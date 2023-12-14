@@ -75,12 +75,12 @@
             </div>
             <div *ngIf="accountService.user.role=='MEMBER'" class="item menu-btn">
                 <button (click)="redirectToVehiculos()" class="home-btn">
-                    Consultas
+                    Consultas 
                 </button>
             </div>
             <div *ngIf="accountService.user.role=='TELEPHONEATTENTION'" class="item menu-btn">
-                <button (click)="redirectToReservasTelefonicas()" class="home-btn">
-                    Consultas
+                <button (click)="redirectToConsultas()" class="home-btn">
+                    Consultas Telefonicas
                 </button>
             </div>
             <div *ngIf="accountService.user.role=='ADMIN'" class="item menu-btn">

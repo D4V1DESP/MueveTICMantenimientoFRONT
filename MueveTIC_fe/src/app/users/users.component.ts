@@ -81,6 +81,7 @@ export class UsersComponent {
         this.user = respuesta
         console.log("Rol del usuario" + this.user.role)
         this.userInfo(this.user)
+        console.log(this.user)
       },
       error: error => {
         this.msg = "Error al obtener el usuario, por favor, asegúrese de que el id es correcto"
