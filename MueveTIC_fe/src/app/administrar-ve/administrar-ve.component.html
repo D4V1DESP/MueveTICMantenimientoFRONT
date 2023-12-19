@@ -205,7 +205,7 @@
         </button>
     </div>
     <div *ngIf="page == 1 && !confirmarReserva && estado=='DISPONIBLE'  && isAttTlfn()" class="item" style="grid-row: 6; grid-column: 2/4;">
-        <p *ngIf="this.haveReserve">Ya tienes una <a (click)="redirectToReservations()" style="color: blue; text-decoration: underline; cursor: pointer;">reserva activa</a>, finalizala antes de reservar otro vehículo<p>
+        <p *ngIf="this.haveReserve">Ya tienes una <a (click)="redirectToInicio()" style="color: blue; text-decoration: underline; cursor: pointer;">reserva activa</a>, finalizala antes de reservar otro vehículo<p>
         <button *ngIf="!this.haveReserve" (click)="reserv()">
             Reservar
         </button>

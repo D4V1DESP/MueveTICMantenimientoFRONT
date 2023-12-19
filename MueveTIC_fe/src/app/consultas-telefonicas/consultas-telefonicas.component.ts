@@ -89,6 +89,7 @@ export class ConsultasTelefonicasComponent {
       }
     })
   }
+  
 
   userInfo(user : any){
     this.email = user.email;

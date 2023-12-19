@@ -193,6 +193,10 @@ isAttTlfn(){
     this.Router.navigate(['/reservations']);
   }
 
+  redirectToInicio(){
+    this.Router.navigate(['/inicio']);
+  }
+
   cancelSelect(){
     this.page=0
     this.msg = "Introduzca la matricula del vehículo"
@@ -236,7 +240,7 @@ isAttTlfn(){
           next: (respuesta: any) => {
             console.log(respuesta);
             sessionStorage.setItem("idReserva", respuesta.id)
-            this.Router.navigate(['/reservations']);
+            this.Router.navigate(['/inicio']);
             this.msg = "Se ha reservado el vehículo correctamente";
           },
           error: error => {
