@@ -25,12 +25,20 @@ export class VehicleService {
     return this.httpClient.get(this.constantsModule.SERVER_URL + "/me/reserved/all" ,{withCredentials: true})
   }
 
+  getLstReservesTelefonicas() {
+    return this.httpClient.get(this.constantsModule.SERVER_URL + "/me/reserved/allReserve" ,{withCredentials: true});
+  }
+
   finalizeReserve(info: any) {
     return this.httpClient.patch(this.constantsModule.SERVER_URL + "/me/reserved/finalize", info, {withCredentials: true})
   }
 
   deleteReserva(){
     return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancel",{withCredentials: true})
+  }
+
+  deleteReservaTelefonica(idUsuario : string){
+    return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancelTelefonica/" +idUsuario, {withCredentials: true})
   }
 
   postReserve(vehicleLicensePlate : string, user:any){

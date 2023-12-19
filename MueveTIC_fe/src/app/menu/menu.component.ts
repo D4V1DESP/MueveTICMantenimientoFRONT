@@ -39,4 +39,7 @@ export class MenuComponent {
     this.router.navigate(['/logout']);
   }
 
+  redirectToConsultas(){
+    this.router.navigate(['/consultas']);
+  }
 }

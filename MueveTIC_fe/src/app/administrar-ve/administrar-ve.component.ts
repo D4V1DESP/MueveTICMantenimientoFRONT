@@ -13,6 +13,7 @@ export class AdministrarVeComponent {
   haveReserve : boolean = false
   page : number = 0
   crearVe : boolean = false
+  confirmarCancelacion : boolean = false
   confirmarEliminar : boolean = false
   confirmarModificar : boolean = false
   confirmarReserva : boolean = false
@@ -34,6 +35,7 @@ export class AdministrarVeComponent {
   estado? : string = "DISPONIBLE"
   battery? : number = 100
   deactivated? : boolean 
+  status?: string
 
   constructor(private vehicleService : VehicleService, public AccountService : AccountService, private Router : Router) {
     this.reserveExists()
@@ -61,6 +63,14 @@ isAttTlfn(){
     return false
   }
 }
+
+  isTelephoneAttention(){
+    if(this.AccountService.user.role == "TELEPHONEATTENTION"){
+      return true
+    } else {
+      return false
+    }
+  }
 
   menu(){
     this.Router.navigate(['/inicio']);
@@ -395,6 +405,7 @@ isAttTlfn(){
       next: respuesta => {
         this.lstVehiculos = respuesta
         this.search()
+        console.log(this.lstVehiculos)
         //this.infoVehiculo(this.lstVehiculos)
       },
       error: _ => {

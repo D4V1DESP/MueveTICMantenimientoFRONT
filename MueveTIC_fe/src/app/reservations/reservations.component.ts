@@ -42,7 +42,14 @@ export class ReservationsComponent {
     if (this.AccountService.user.role == "MEMBER"){
       return true
     } else {
-      this.Router.navigate(['/inicio']);
+      return false
+    }
+  }
+
+  isTelephoneAttention(){
+    if(this.AccountService.user.role == "TELEPHONEATTENTION"){
+      return true
+    } else {
       return false
     }
   }
