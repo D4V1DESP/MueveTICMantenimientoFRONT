@@ -37,8 +37,8 @@ export class VehicleService {
     return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancel",{withCredentials: true})
   }
 
-  deleteReservaTelefonica(userId : string){
-    return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancel" +  userId)
+  deleteReservaTelefonica(idUsuario : string){
+    return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancelTelefonica/" +idUsuario, {withCredentials: true})
   }
 
   postReserve(vehicleLicensePlate : string){

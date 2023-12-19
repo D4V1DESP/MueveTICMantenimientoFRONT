@@ -21,6 +21,7 @@ export class ConsultasTelefonicasComponent {
   id: string = '' //Para que funcione bien el html no puede ser nulo
   vehicle?: string
   user?: string
+  email?: string
   endDate?: Date
   startDate?: Date
   valuation?: number
@@ -62,7 +63,7 @@ export class ConsultasTelefonicasComponent {
   }
 
   selecionarRe(pos : any){
-    console.log(pos["id"])
+    this.reserva=pos
     this.id = pos["id"]
     this.endDate = pos["end"]
     this.startDate = pos["start"]
@@ -71,8 +72,28 @@ export class ConsultasTelefonicasComponent {
     this.vehicle = pos["vehicle"]["licensePlate"]
     this.valuation = pos["rating"]
     this.comment = pos["comment"]
+    this.getEmail();
+    this.email = this.email;
     this.page = 0
   }
+
+  getEmail(){
+
+    this.accountService.getUser(this.reserva["userId"])
+    .subscribe({
+      next: respuesta => {
+        this.userInfo(respuesta)
+      },
+      error: error => {
+        this.msg = "Error al obtener el usuario, por favor, asegúrese de que el id es correcto"
+      }
+    })
+  }
+
+  userInfo(user : any){
+    this.email = user.email;
+  }
+
 
   listReservasTelefonicas(){
     this.page = 2
@@ -81,11 +102,9 @@ export class ConsultasTelefonicasComponent {
 
   consultaTelefonica(){
     //Cuando se ejecute se buscan los vehículos teniendo en cuenta los filtros establecidos
-    console.log("HOLA")
     this.vehicleService.getLstReservesTelefonicas()
     .subscribe({
       next: respuesta => {
-        console.log(respuesta)
         this.msg = ""
         this.lstReserves = respuesta
         this.search()
@@ -93,6 +112,20 @@ export class ConsultasTelefonicasComponent {
       },
       error: error => {
         this.msg = "Ha ocurrido un error al mostrar la reserva especificada";
+      }
+    })
+  }
+
+  cancelarReserva(){
+    this.status = "CANCELADA"
+    this.vehicleService.deleteReservaTelefonica(this.reserva["userId"])
+    .subscribe({
+      next: respuesta => {
+        this.msg = "Reserva cancelada correctamente"
+        this.page = 1
+      },
+      error: error => {
+        this.msg = "Ha ocurrido un error al cancelar la reserva"
       }
     })
   }
