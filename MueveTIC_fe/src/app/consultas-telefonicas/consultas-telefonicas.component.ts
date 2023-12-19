@@ -73,7 +73,6 @@ export class ConsultasTelefonicasComponent {
     this.valuation = pos["rating"]
     this.comment = pos["comment"]
     this.getEmail();
-    this.email = this.email;
     this.page = 0
   }
 
