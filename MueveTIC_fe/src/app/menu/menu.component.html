@@ -79,7 +79,12 @@
                 </button>
             </div>
             <div *ngIf="accountService.user.role=='TELEPHONEATTENTION'" class="item menu-btn">
-                <button (click)="redirectToReservasTelefonicas()" class="home-btn">
+                <button (click)="redirectToUsuarios()" class="home-btn">
+                    Reservar
+                </button>
+            </div>
+            <div *ngIf="accountService.user.role=='TELEPHONEATTENTION'" class="item menu-btn">
+                <button (click)="redirectToReservas()" class="home-btn">
                     Consultas
                 </button>
             </div>

@@ -33,8 +33,11 @@ export class VehicleService {
     return this.httpClient.delete(this.constantsModule.SERVER_URL + "/me/reserved/cancel",{withCredentials: true})
   }
 
-  postReserve(vehicleLicensePlate : string){
-    return this.httpClient.post(this.constantsModule.SERVER_URL + "/me/reserve/" + vehicleLicensePlate, {}, {withCredentials: true})
+  postReserve(vehicleLicensePlate : string, user:any){
+    return this.httpClient.post(this.constantsModule.SERVER_URL + "/me/reserve/" + vehicleLicensePlate, user, {withCredentials: true});
+  }
+  postReserveAtt(vehicleLicensePlate : string, user:any){
+    return this.httpClient.post(this.constantsModule.SERVER_URL + "/me/reserveAttT/" + vehicleLicensePlate, user, {withCredentials: true});
   }
 
   getVehiculos(matricula: string) {

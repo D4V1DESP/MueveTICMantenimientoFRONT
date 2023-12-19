@@ -270,13 +270,13 @@
     </form>
     <div class="item" style="color: red; grid-row: 5; grid-column: 2 / 4; font-size: 15px; font-weight: bold;"> {{ msg
         }}</div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP"
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && AccountService.user.role!='TELEPHONEATTENTION'"
         class="item" style="grid-row: 6; grid-column: 2;">
         <button (click)="delete()">
             Bloquear
         </button>
     </div>
-    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP"
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && AccountService.user.role!='TELEPHONEATTENTION'"
         class="item" style="grid-row: 6; grid-column: 3;">
         <button [ngClass]="{
           'blocked': !isValid()
@@ -284,6 +284,15 @@
             Modificar
         </button>
     </div>
+    <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && AccountService.user.role=='TELEPHONEATTENTION'"
+        class="item" style="grid-row: 6; grid-column: 3;">
+        <button [ngClass]="{
+          'blocked': !isValid() 
+        }" (click)="reservAttencion()" [disabled]="!isValid()">
+            Reservar
+        </button>
+    </div>
+
     <div *ngIf="page == 1 && !confirmarEliminar && !confirmarModificar && !confirmarReactivacion && !crearP && status==false"
         class="item" style="grid-row: 6; grid-column: 2;">
         <button (click)="reactivate()">
@@ -344,11 +353,11 @@
         </button>
     </div>
     <menu *ngIf="page == 0" style="padding: 0;">
-        <button (click)="createP()"
+        <button *ngIf="AccountService.user.role=='ADMIN'" (click)="createP()"
             style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
             Crear Perfil
         </button>
-        <button (click)="select('MEMBER')"
+        <button  (click)="select('MEMBER')"
             style="grid-column: 2; grid-row: 1; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
             Seleccionar Usuario
         </button>
@@ -365,7 +374,7 @@
     </div>
 </body>
 
-<body *ngIf="page==2 && isAdmin()"
+<body *ngIf="page==2 && AccountService.user.role=='ADMIN'"
     style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
     <div class="bloque-interfaz-li"></div>
     <div class="bloque-interfaz-li"
@@ -393,6 +402,35 @@
         <button (click)="list()" style="grid-row: 2; grid-column: 6; border-radius: 25px;">
             Buscar
         </button>
+        <button (click)="cancelSelect()" style="grid-row: 4; grid-column: 6; border-radius: 25px;">
+            Volver
+        </button>
+    </div>
+    <div class="item" style="grid-row: 3; grid-column: 3/5; flex-direction: column;">
+        <li *ngFor="let user of lstUsers" style="list-style: none;">
+            <button (click)="selecionarPerf(user['id'])"
+                style="width: 100%; height: 40px; margin: 10px; display: grid; grid-template-rows: 5px 1fr 10px 1fr 5px; grid-template-columns: 1fr 2fr 5px 4fr 10px 2fr 5px 2fr 1fr; background-color: aquamarine; border-radius: 20px;">
+                <div class="button-text" style="grid-row: 2; grid-column: 2;">
+                    Email:
+                </div>
+                <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 4;"
+                    [(ngModel)]="user.email" [disabled]=true>
+                <div class="button-text" style="grid-row: 2; grid-column: 6;">
+                    Nombre:
+                </div>
+                <input type="text" style="height: 100%; width: 100%; grid-row: 2; grid-column: 8;"
+                    [(ngModel)]="user.name" [disabled]=true>
+            </button>
+        </li>
+        <p *ngIf="lstUsers.length==0">No se han encontrado usuarios</p>
+    </div>
+</body>
+
+<body *ngIf="page==2 && AccountService.user.role=='TELEPHONEATTENTION'"
+    style="min-height: 100vh; height: 100%; grid-template-rows: 10px 100px 15fr 1fr; grid-template-columns: 6fr 1fr 5fr 5fr 1fr 6fr;">
+    <div class="bloque-interfaz-li"></div>
+    <div class="bloque-interfaz-li"
+        style="grid-row: 2; background-color: blue; display: grid; grid-template-rows: 1fr 4fr 1fr 4fr 1fr; grid-template-columns: 1fr 4fr 10px 4fr 20px 4fr 1fr;">
         <button (click)="cancelSelect()" style="grid-row: 4; grid-column: 6; border-radius: 25px;">
             Volver
         </button>

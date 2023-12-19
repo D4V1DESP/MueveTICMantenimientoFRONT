@@ -13,6 +13,7 @@ export class AccountService {
   msg? : string
   vehiculo? : any
   user? : any = {}
+  cliente?: any ={}
   auxUser? : any = {}
   newBirthdate? : Date
 
@@ -84,6 +85,7 @@ export class AccountService {
   }
 
   getUserList(tipo: string){
+    console.log(this.constantsModule.SERVER_URL + "/admins/users/?type="+ tipo)
     return this.httpClient.get(this.constantsModule.SERVER_URL + "/admins/users/?type="+ tipo, {withCredentials: true})
   }
 

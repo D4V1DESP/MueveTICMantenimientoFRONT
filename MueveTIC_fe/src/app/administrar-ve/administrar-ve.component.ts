@@ -35,7 +35,7 @@ export class AdministrarVeComponent {
   battery? : number = 100
   deactivated? : boolean 
 
-  constructor(private vehicleService : VehicleService, private AccountService : AccountService, private Router : Router) {
+  constructor(private vehicleService : VehicleService, public AccountService : AccountService, private Router : Router) {
     this.reserveExists()
   }
 
@@ -53,6 +53,13 @@ export class AdministrarVeComponent {
     }else{
       return false
     }
+}
+isAttTlfn(){
+  if (this.AccountService.user.role == "TELEPHONEATTENTION"){
+      return true
+  }else{
+    return false
+  }
 }
 
   menu(){
@@ -192,7 +199,7 @@ export class AdministrarVeComponent {
     this.estado = "RESERVADO"
     console.log(this.id);
     if (this.id !== undefined) {
-      this.vehicleService.postReserve(this.id)
+      this.vehicleService.postReserve(this.id,this.AccountService.cliente)
         .subscribe({
           next: (respuesta: any) => {
             console.log(respuesta);
@@ -202,6 +209,33 @@ export class AdministrarVeComponent {
           },
           error: error => {
             this.msg = "Ha ocurrido un error al reservar el vehículo";
+          }
+        });
+    } else {
+      this.msg = "Introduzca una matrícula";
+    }
+  }
+
+  confirmReservAtt(){
+    this.confirmarReserva=false
+    this.estado = "RESERVADO"
+    console.log(this.id);
+    if (this.id !== undefined) {
+      this.vehicleService.postReserveAtt(this.id,this.AccountService.cliente)
+        .subscribe({
+          next: (respuesta: any) => {
+            console.log(respuesta);
+            sessionStorage.setItem("idReserva", respuesta.id)
+            this.Router.navigate(['/reservations']);
+            this.msg = "Se ha reservado el vehículo correctamente";
+          },
+          error: error => {
+            if(error.status===406){
+              this.msg = "Este cliente ya tiene una reserva activa";
+            }
+            else{
+              this.msg = "Ha ocurrido un error al reservar el vehículo";
+            }
           }
         });
     } else {

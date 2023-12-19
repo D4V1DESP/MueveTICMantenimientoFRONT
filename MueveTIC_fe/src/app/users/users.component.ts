@@ -44,7 +44,7 @@ export class UsersComponent {
 
 
   constructor(public AccountService: AccountService, private Router: Router, private datePipe: DatePipe) {
-    this.AccountService.getUserList("ALL").subscribe({
+    this.AccountService.getUserList("MEMBER").subscribe({
       next: respuesta => {
         this.allUsers = respuesta
       },
@@ -55,6 +55,9 @@ export class UsersComponent {
   }
 
   isAdmin(){
+    return true
+  }
+  isTelefonica(){
     return true
   }
 
@@ -220,6 +223,12 @@ export class UsersComponent {
   mod(){
     this.confirmarModificar = true
     this.msg = "Confime la modificación del usuario"
+  }
+
+  reservAttencion(){//<-----------------------------------------------------------------------------------------------------------------------------------------
+    this.AccountService.cliente=this.user
+    console.log(this.AccountService.cliente)
+    this.Router.navigate(['/vehiculos']);
   }
 
   confirmMod(){

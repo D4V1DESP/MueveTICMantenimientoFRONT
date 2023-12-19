@@ -183,7 +183,13 @@
             Modificar
         </button>
     </div>
-    <div *ngIf="page == 1 && !confirmarReserva && estado=='DISPONIBLE' && isUser()" class="item" style="grid-row: 6; grid-column: 2/4;">
+    <div *ngIf="page == 1 && !confirmarReserva && estado=='DISPONIBLE'  && isUser()" class="item" style="grid-row: 6; grid-column: 2/4;">
+        <p *ngIf="this.haveReserve">Ya tienes una <a (click)="redirectToReservations()" style="color: blue; text-decoration: underline; cursor: pointer;">reserva activa</a>, finalizala antes de reservar otro vehículo<p>
+        <button *ngIf="!this.haveReserve" (click)="reserv()">
+            Reservar
+        </button>
+    </div>
+    <div *ngIf="page == 1 && !confirmarReserva && estado=='DISPONIBLE'  && isAttTlfn()" class="item" style="grid-row: 6; grid-column: 2/4;">
         <p *ngIf="this.haveReserve">Ya tienes una <a (click)="redirectToReservations()" style="color: blue; text-decoration: underline; cursor: pointer;">reserva activa</a>, finalizala antes de reservar otro vehículo<p>
         <button *ngIf="!this.haveReserve" (click)="reserv()">
             Reservar
@@ -223,6 +229,14 @@
             Confirmar Reserva
         </button>
     </div>
+    <div *ngIf="confirmarReserva && AccountService.user.role=='TELEPHONEATTENTION'" class="item" style="grid-row: 6; grid-column: 2 / 4;">
+        <button (click)="cancelReserv()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Cancelar Reserva
+        </button>
+        <button (click)="confirmReservAtt()" style="grid-column: 3; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
+            Confirmar Reserva
+        </button>
+    </div>
     <div *ngIf="confirmarCrear" class="item" style="grid-row: 6; grid-column: 2 / 4;">
         <button (click)="cancelCreate()" style="grid-column: 2; width: 100px; height: 50px; font-weight: bold; border-radius: 10px;">
             Cancelar Creación
@@ -243,6 +257,14 @@
         </button>
     </menu>
     <menu *ngIf="page == 0 && isUser()" style="padding: 0;">
+        <button (click)="select()" style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
+            Seleccionar vehículo
+        </button>
+        <button (click)="list()" style="grid-column: 2; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: 10px; margin-right: auto; background-color: darkblue; color: white;">
+            Consultar lista
+        </button>
+    </menu>
+    <menu *ngIf="page == 0 && isAttTlfn()" style="padding: 0;">
         <button (click)="select()" style="grid-column: 1; grid-row: 1/span2; width: 200px; height: 100px; font-size: 2em; font-weight: bold; border-radius: 40px; align-self: center; margin-left: auto; margin-right: 10px; background-color: darkblue; color: white;">
             Seleccionar vehículo
         </button>

@@ -11,6 +11,7 @@ import { OauthComponent } from './oauth/oauth.component';
 import { MenuComponent } from './menu/menu.component';
 import { ConfigComponent } from './config/config.component';
 import { AtencionTelefonicaComponent } from './atencion-telefonica/atencion-telefonica.component';
+import { ReservasTelefonicasComponent } from './reservas-telefonicas/reservas-telefonicas.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'config', component: ConfigComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'atencion-telefonica', component: AtencionTelefonicaComponent },
+  { path: 'reservasTelefonicas', component: ReservasTelefonicasComponent },
   {path: '**', redirectTo: ''}
 ];
 

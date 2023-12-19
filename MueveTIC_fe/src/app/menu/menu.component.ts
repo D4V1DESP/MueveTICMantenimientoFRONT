@@ -32,7 +32,7 @@ export class MenuComponent {
   }
 
   redirectToReservasTelefonicas(){
-    this.router.navigate(['/reservasTelefonicas'])
+    this.router.navigate(['/reservasTelefonicas']);
   }
   
   redirectToLogout() {
